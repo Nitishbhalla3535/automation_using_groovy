@@ -3,43 +3,42 @@ job("groovy-job1") {
 
 
      scm {
-          github('Nitishbhalla3535/
-Docker-and-kubernetes', 'master')
+          github('Nitishbhalla3535/Docker-and-kubernetes', 'master')
         }
     
     triggers {
-           githubpush()
+           githubPush()
          }
     wrappers {
-         prebuildCleanup()
+         preBuildCleanup()
       }
    
 
 
    steps {
       dockerBuildAndPublish {
-           repositoryName('nitish4421/app')
-           tag("latest"
-           dockerHostURI('tcp://0.0.0.0:4243')
-           registryCredentials('docker-hub')
-           createfingerprints(false)
-           skipDecorate(false)
-           skipTagaslatest(false)
+        repositoryName('nitish4421/app')
+        tag("latest")
+        dockerHostURI('tcp://0.0.0.0:4243')
+        registryCredentials('docker-hub')
+        createFingerprints(false)
+        skipDecorate(false)
+        skipTagAsLatest(false)
           }
        }
    
 
  } 
  
- job("groovy-job-2")
-    description("it run on slave nodes and control K8s")
+job("groovy-job-2"){
+    description("This will  run on slave nodes and control K8s.")
     triggers {
-        upstream('groov-job1', 'SUCCESS')
+        upstream('groovy-job1', 'SUCCESS')
     }
 
 
-    command = " " "
- if kubectl get deployment |grep nitishpods
+  command = """
+if kubectl get deployment |grep nitishpods
 then 
 echo "Deployment exsists"
 kubectl rollout restart deploy/nitishpods
@@ -50,13 +49,14 @@ kubectl expose deploy nitishpods --port=80  --type=NodePort
 kubectl scale deployment nitishpods --replicas=4
 kubectl get all
 fi 
-" " "
+"""
 
 
   steps {
        shell(command)
     }
-}
+}    
+ 
 job("groovy-job3") {
     description("for testing if pod is running or not else send the mail")
 
@@ -71,7 +71,7 @@ job("groovy-job3") {
  else
  echo "sending back to developer"
  exit 1
- fi ' ' ' )
+ fi''' )
    }
    publishers{
         extendedEmail{
@@ -81,13 +81,13 @@ job("groovy-job3") {
                  attachBuildLog(true)
                  subject('Build successful')
                  content('The build was successful and deployment was done')
-                 reciepentList('nitish.bhallaf5@gmail.com')
+                 recipientList('nitish.bhallaf5@gmail.com')
                }
                failure{
-                  attachBuildlog(true)
+                  attachBuildLog(true)
                   subject('Failed  build')
                   content('The build failed')
-                  recipentList('nitish.bhallat32@gmail.com')
+                  recipientList('nitish.bhallat32@gmail.com')
                 }
               }
            }
