@@ -88,7 +88,7 @@ job("groovy-job3") {
                   attachBuildLog(true)
                   subject('Failed  build')
                   content('The build failed')
-                  recipientList('nitish.bhallat32@gmail.com')
+                  recipientList('nitish.bhallaf5@gmail.com')
                 }
               }
            }
