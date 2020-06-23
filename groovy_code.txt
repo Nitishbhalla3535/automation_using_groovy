@@ -20,7 +20,7 @@ job("groovy-job1") {
         repositoryName('nitish4421/app')
         tag("latest")
         dockerHostURI('tcp://0.0.0.0:4243')
-        registryCredentials('docker-hub')
+        registryCredentials('dockerhub')
         createFingerprints(false)
         skipDecorate(false)
         skipTagAsLatest(false)
