@@ -38,16 +38,16 @@ job("groovy-job-2"){
 
 
   command = """
-if kubectl get deployment |grep nitishpods
+if sudo kubectl get deployment |grep nitishpods
 then 
 echo "Deployment exsists"
-kubectl rollout restart deploy/nitishpods
-kubectl rollout status deploy/nitishpods
+sudo kubectl rollout restart deploy/nitishpods
+sudo kubectl rollout status deploy/nitishpods
 else
-kubectl create deploy nitishpods --image=nitish4421/app
-kubectl expose deploy nitishpods --port=80  --type=NodePort
-kubectl scale deployment nitishpods --replicas=4
-kubectl get all
+sudo kubectl create deploy nitishpods --image=nitish4421/app
+sudo kubectl expose deploy nitishpods --port=80  --type=NodePort
+sudo kubectl scale deployment nitishpods --replicas=4
+sudo kubectl get all
 fi 
 """
 
