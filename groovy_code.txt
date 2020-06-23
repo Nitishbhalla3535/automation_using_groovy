@@ -43,7 +43,7 @@ if  kubectl get deployments |grep nitishpods
 then 
 echo "Deployment exsists"
  kubectl rollout restart deploy/nitishpods
-sudo kubectl rollout status deploy/nitishpods
+ kubectl rollout status deploy/nitishpods
 else
  kubectl create deployment nitishpods --image=nitish4421/app
  kubectl expose deployment nitishpods --port=80  --type=NodePort
