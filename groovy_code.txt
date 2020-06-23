@@ -32,11 +32,14 @@ job("groovy-job1") {
  
 job("groovy-job-2"){
     description("This will  run on slave nodes and control K8s.")
+    Restrict where this project can be run {
+           Label Expression('ops-kube')
+      }
    
     triggers {
         upstream('groovy-job1', 'SUCCESS')
     }
-
+     
 
   command = """
 if  kubectl get deployments |grep nitishpods
@@ -66,7 +69,7 @@ job("groovy-job3") {
           upstream('groovy-job2', 'SUCCESS')
        }
     steps {
-        shell('''if sudo kubectl get deployments nitishpods
+        shell('''if  kubectl get deployments nitishpods
  then
  echo "send to the next department"
  else
