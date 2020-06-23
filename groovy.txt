@@ -1,0 +1,95 @@
+job("groovy-job1") {
+     description("To pull  the github repo on every push and update the  container")
+
+
+     scm {
+          github('Nitishbhalla3535/
+Docker-and-kubernetes', 'master')
+        }
+    
+    triggers {
+           githubpush()
+         }
+    wrappers {
+         prebuildCleanup()
+      }
+   
+
+
+   steps {
+      dockerBuildAndPublish {
+           repositoryName('nitish4421/app')
+           tag("latest"
+           dockerHostURI('tcp://0.0.0.0:4243')
+           registryCredentials('docker-hub')
+           createfingerprints(false)
+           skipDecorate(false)
+           skipTagaslatest(false)
+          }
+       }
+   
+
+ } 
+ 
+ job("groovy-job-2")
+    description("it run on slave nodes and control K8s")
+    triggers {
+        upstream('groov-job1', 'SUCCESS')
+    }
+
+
+    command = " " "
+ if kubectl get deployment |grep nitishpods
+then 
+echo "Deployment exsists"
+kubectl rollout restart deploy/nitishpods
+kubectl rollout status deploy/nitishpods
+else
+kubectl create deploy nitishpods --image=nitish4421/app
+kubectl expose deploy nitishpods --port=80  --type=NodePort
+kubectl scale deployment nitishpods --replicas=4
+kubectl get all
+fi 
+" " "
+
+
+  steps {
+       shell(command)
+    }
+}
+job("groovy-job3") {
+    description("for testing if pod is running or not else send the mail")
+
+
+    triggers {
+          upstream('groovy-job2', 'SUCCESS')
+       }
+    steps {
+        shell('''if sudo kubectl get deployments nitishpods
+ then
+ echo "send to the next department"
+ else
+ echo "sending back to developer"
+ exit 1
+ fi ' ' ' )
+   }
+   publishers{
+        extendedEmail{
+            contentType('text/html')
+           triggers {
+             success{
+                 attachBuildLog(true)
+                 subject('Build successful')
+                 content('The build was successful and deployment was done')
+                 reciepentList('nitish.bhallaf5@gmail.com')
+               }
+               failure{
+                  attachBuildlog(true)
+                  subject('Failed  build')
+                  content('The build failed')
+                  recipentList('nitish.bhallat32@gmail.com')
+                }
+              }
+           }
+        }
+   }
