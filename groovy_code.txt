@@ -96,3 +96,16 @@ job("groovy-job3") {
            }
         }
    }
+
+ 
+buildPipelineView('groovy'){
+     filterBuildQueue(true)
+     filterExecutors(false)
+     title('groovy')
+     displayedBuilds(1)
+     selectedJob('groovy-job1')
+     alwaysAllowManualTrigger(false)
+     showPipelineParameters(true)
+     refreshFrequency(1)
+ 
+}
