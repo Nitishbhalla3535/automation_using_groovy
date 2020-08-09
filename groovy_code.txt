@@ -17,10 +17,10 @@ job("groovy-job1") {
 
    steps {
       dockerBuildAndPublish {
-        repositoryName('nitish4421/app')
+        repositoryName('app')
         tag("latest")
         dockerHostURI('tcp://0.0.0.0:4243')
-        registryCredentials('dockerhub')
+        registryCredentials('')
         createFingerprints(false)
         skipDecorate(false)
         skipTagAsLatest(true)
@@ -84,13 +84,13 @@ job("groovy-job3") {
                  attachBuildLog(true)
                  subject('Build successful')
                  content('The build was successful and deployment was done')
-                 recipientList('nitish.bhallaf5@gmail.com')
+                 recipientList('email_id')
                }
                failure{
                   attachBuildLog(true)
                   subject('Failed  build')
                   content('The build failed')
-                  recipientList('nitish.bhallaf5@gmail.com')
+                  recipientList('email_id')
                 }
               }
            }
