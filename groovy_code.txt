@@ -47,7 +47,7 @@ echo "Deployment exsists"
  kubectl rollout restart deploy/nitishpods
  kubectl rollout status deploy/nitishpods
 else
- kubectl create deployment nitishpods --image=nitish4421/app
+ kubectl create deployment nitishpods --image=
  kubectl expose deployment nitishpods --port=80  --type=NodePort
  kubectl scale deployment nitishpods --replicas=4
 kubectl get all
