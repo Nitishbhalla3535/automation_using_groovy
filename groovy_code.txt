@@ -68,7 +68,7 @@ job("groovy-job3") {
           upstream('groovy-job2', 'SUCCESS')
        }
     steps {
-        shell('''if  kubectl get deployments nitishpods
+        shell('''if  kubectl get deployments npods
  then
  echo "send to the next department"
  else
