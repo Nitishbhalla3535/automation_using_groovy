@@ -17,9 +17,9 @@ job("groovy-job1") {
 
    steps {
       dockerBuildAndPublish {
-        repositoryName('app')
+        repositoryName('')
         tag("latest")
-        dockerHostURI('tcp://0.0.0.0:4243')
+        dockerHostURI('tcp://')
         registryCredentials('')
         createFingerprints(false)
         skipDecorate(false)
@@ -41,15 +41,15 @@ job("groovy-job-2"){
      
 
   command = """
-if  kubectl get deployments |grep nitishpods
+if  kubectl get deployments |grep npods
 then 
 echo "Deployment exsists"
- kubectl rollout restart deploy/nitishpods
- kubectl rollout status deploy/nitishpods
+ kubectl rollout restart deploy/npods
+ kubectl rollout status deploy/npods
 else
- kubectl create deployment nitishpods --image=
- kubectl expose deployment nitishpods --port=80  --type=NodePort
- kubectl scale deployment nitishpods --replicas=4
+ kubectl create deployment npods --image=
+ kubectl expose deployment npods --port=80  --type=NodePort
+ kubectl scale deployment npods --replicas=4
 kubectl get all
 fi 
 """
